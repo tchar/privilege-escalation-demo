@@ -1,0 +1,4 @@
+#!/usr/bin/sh
+cd /home/user/backup
+now=$(date '+%Y-%m-%dT%H:%M:%S')
+/usr/bin/tar -czf "/tmp/user-$now.tar.gz" *
