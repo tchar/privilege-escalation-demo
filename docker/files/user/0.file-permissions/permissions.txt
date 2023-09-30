@@ -1,0 +1,11 @@
+USER    GROUP   OTHER
+rwx     rwx     rwx
+111     111     111     =   777
+
+Example file 1
+User can read write, group can read write, other can do nothing
+rw-     rw-     ---     =   660
+
+Example file 2
+User can read write execute, group can read write, other can read
+rwx     rw-     r--     =   764
