@@ -30,8 +30,10 @@ RUN setcap cap_setuid+ep /usr/local/bin/python
 RUN gcc -o /usr/local/bin/check-processes /usr/local/bin/check-processes.c
 RUN chmod 4755 /usr/local/bin/check-processes
 
-RUN gcc -o /usr/local/bin/crackme /home/user/6.binary-exploit/2/crackme.c
-RUN chmod +x /usr/local/bin/crackme
+RUN gcc -o /usr/local/bin/crackme /home/user/6.binary-exploit/2/src/crackme.c
+# RUN chmod +x /usr/local/bin/crackme
+RUN cd /home/user/6.binary-exploit/1 && make crackme && make crackme-static
+RUN cd /home/user/6.binary-exploit/1 && make crackme
 
 # Chmod
 RUN cp /usr/bin/vim /usr/local/bin/vim-suid && chmod u+s /usr/local/bin/vim-suid
