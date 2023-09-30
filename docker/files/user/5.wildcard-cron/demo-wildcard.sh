@@ -1,4 +1,5 @@
 #!/usr/bin/sh
+
 mkdir demo
 cd demo
 touch -- --checkpoint=1
