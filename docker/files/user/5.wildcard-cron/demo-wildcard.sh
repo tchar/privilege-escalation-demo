@@ -1,5 +1,6 @@
 #!/usr/bin/sh
 
+printf "\n##### Create wildcard exploit demo #####\n\n"
 mkdir demo
 cd demo
 touch -- --checkpoint=1

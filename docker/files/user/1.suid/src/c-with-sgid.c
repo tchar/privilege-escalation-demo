@@ -4,7 +4,7 @@
 
 int main()
 {
-    printf("\n#### Suid privilege escalation ####\n\n");
+    printf("\n#### SGID privilege escalation ####\n\n");
     execl("/usr/bin/sh", "/usr/bin/cat", "/etc/shadow", NULL);
     return 0;
 }

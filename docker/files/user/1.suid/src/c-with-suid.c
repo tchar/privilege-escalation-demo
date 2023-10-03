@@ -4,7 +4,7 @@
 
 int main()
 {
-    printf("\n#### Suid privilege escalation ####\n\n");
+    printf("\n#### SUID privilege escalation ####\n\n");
     setuid(0);
     printf("whoami = ");
     fflush(stdout);
