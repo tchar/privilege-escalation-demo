@@ -62,6 +62,8 @@ RUN cp /usr/bin/vim /usr/local/bin/vim-suid && chmod 4755 /usr/local/bin/vim-sui
 RUN chmod 0755 /usr/local/bin/backup-cron
 RUN chmod 0755 /usr/local/bin/pspy64
 RUN chmod 4755 /usr/local/bin/check-processes
+RUN chmod 0440 /etc/sudoers
+RUN chmod 0644 /etc/crontab
 RUN chmod 0700 /entrypoint.sh
 
 WORKDIR /home/user
