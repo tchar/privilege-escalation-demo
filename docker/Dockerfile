@@ -31,7 +31,7 @@ RUN gcc -o /usr/local/bin/check-processes /usr/local/bin/check-processes.c
 RUN chmod 4755 /usr/local/bin/check-processes
 
 RUN gcc -o /usr/local/bin/crackme /home/user/6.binary-exploit/2/src/crackme.c
-# RUN chmod +x /usr/local/bin/crackme
+RUN chmod +x /usr/local/bin/crackme
 RUN cd /home/user/6.binary-exploit/1 && make crackme && make crackme-static
 RUN cd /home/user/6.binary-exploit/1 && make crackme
 
@@ -40,6 +40,7 @@ RUN cp /usr/bin/vim /usr/local/bin/vim-suid && chmod u+s /usr/local/bin/vim-suid
 RUN chmod 0744 /usr/local/bin/backup-cron
 RUN chmod 0755 /usr/local/bin/pspy64
 RUN chmod 0700 /entrypoint.sh
+RUN chmod +x /home/user/3.capabilities/exploit.py
 
 # User
 RUN find /home/user -type f -iname "*.sh" -exec chmod +x {} \;
@@ -48,8 +49,11 @@ RUN find /home/user -type f -print0 | xargs -0 dos2unix
 RUN chown -R user:user /home/user
 RUN chown root:root /home/user/1.suid/python-with-suid.py
 RUN chmod 4775 /home/user/1.suid/python-with-suid.py
-RUN gcc -o /home/user/1.suid/c-with-suid /home/user/1.suid/c-with-suid.c
+RUN gcc -o /home/user/1.suid/c-with-suid /home/user/1.suid/src/c-with-suid.c
+RUN gcc -o /home/user/1.suid/c-with-sgid /home/user/1.suid/src/c-with-sgid.c
+RUN chown root:shadow /home/user/1.suid/c-with-sgid
 RUN chmod u+s /home/user/1.suid/c-with-suid
+RUN chmod g+s /home/user/1.suid/c-with-sgid
 
 WORKDIR /home/user
 CMD /usr/bin/sh /entrypoint.sh

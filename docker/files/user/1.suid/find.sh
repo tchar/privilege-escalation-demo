@@ -1,9 +1,9 @@
 #!/usr/bin/sh
 
 # Find suid
-echo "################### SUID ###################"
+echo "################### Find suid ###################"
 find / -perm /4000 -exec ls -l {} \; 2>/dev/null
 
 # Find guid
-echo "################### GUID ###################"
+echo "################### Find sgid ###################"
 find / -perm /2000 -exec ls -l {} \; 2>/dev/null
