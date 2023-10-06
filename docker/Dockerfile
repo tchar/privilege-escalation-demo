@@ -30,8 +30,8 @@ RUN gcc -Wall -o /usr/local/bin/check-processes /root/docker-bin/src/check-proce
 RUN cp /root/docker-bin/backup-cron /usr/local/bin/backup-cron
 RUN tar -xzf /root/docker-bin/bin.tar.gz --directory /root/docker-bin/ && cp /root/docker-bin/pspy64 /usr/local/bin/pspy64
 
-RUN gcc -Wall -o /home/user/1.suid-guid/c-with-suid /home/user/1.suid-guid/src/c-with-suid.c
-RUN gcc -Wall -o /home/user/1.suid-guid/c-with-sgid /home/user/1.suid-guid/src/c-with-sgid.c
+RUN gcc -Wall -o /home/user/1.suid-sgid/c-with-suid /home/user/1.suid-sgid/src/c-with-suid.c
+RUN gcc -Wall -o /home/user/1.suid-sgid/c-with-sgid /home/user/1.suid-sgid/src/c-with-sgid.c
 RUN cd /home/user/6.binary-exploit/1 && make crackme && make crackme-static
 RUN cd /home/user/6.binary-exploit/2 && make crackme && cp crackme /usr/local/bin/crackme
 
@@ -49,11 +49,11 @@ RUN find /home/user -type f -print0 | xargs -0 dos2unix
 
 RUN chown -R user:user /home/user
 
-RUN chown root:root /home/user/1.suid-guid/python-with-suid.py /home/user/1.suid-guid/c-with-suid
-RUN chown root:shadow /home/user/1.suid-guid/c-with-sgid
-RUN chmod 4775 /home/user/1.suid-guid/python-with-suid.py
-RUN chmod 4775 /home/user/1.suid-guid/c-with-suid
-RUN chmod 2755 /home/user/1.suid-guid/c-with-sgid
+RUN chown root:root /home/user/1.suid-sgid/python-with-suid.py /home/user/1.suid-sgid/c-with-suid
+RUN chown root:shadow /home/user/1.suid-sgid/c-with-sgid
+RUN chmod 4775 /home/user/1.suid-sgid/python-with-suid.py
+RUN chmod 4775 /home/user/1.suid-sgid/c-with-suid
+RUN chmod 2755 /home/user/1.suid-sgid/c-with-sgid
 RUN chmod 0755 /home/user/6.binary-exploit/1/crackme /home/user/6.binary-exploit/1/crackme-static
 RUN chmod 0755 /home/user/6.binary-exploit/2/crackme
 
