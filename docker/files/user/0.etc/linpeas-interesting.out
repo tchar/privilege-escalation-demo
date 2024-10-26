@@ -1,0 +1,51 @@
+                      ╔════════════════════════════════════╗
+══════════════════════╣ Files with Interesting Permissions ╠══════════════════════
+                      ╚════════════════════════════════════╝
+╔══════════╣ SUID - Check easy privesc, exploits and write perms
+╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#sudo-and-suid
+-rwsr-xr-x 1 root root 17K Oct 26 03:34 /usr/local/bin/check-processes (Unknown SUID binary!)
+-rwsr-xr-x 1 root root 2.8M Oct 26 03:34 /usr/local/bin/vim-suid (Unknown SUID binary!)
+-rwsrwxr-x 1 root root 298 Oct 26 03:34 /home/user/1.suid-sgid/python-with-suid.py (Unknown SUID binary!)
+-rwsrwxr-x 1 root root 17K Oct 26 03:34 /home/user/1.suid-sgid/c-with-suid (Unknown SUID binary!)
+
+╔══════════╣ SGID
+╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#sudo-and-suid
+-rwxr-sr-x 1 root shadow 17K Oct 26 03:34 /home/user/1.suid-sgid/c-with-sgid (Unknown SGID binary)
+
+
+Files with capabilities (limited to 50):
+/usr/local/bin/python = cap_setuid+ep
+
+
+╔══════════╣ Searching root files in home dirs (limit 30)
+/home/
+/home/user/1.suid-sgid/python-with-suid.py
+/home/user/1.suid-sgid/c-with-sgid
+/home/user/1.suid-sgid/c-with-suid
+/root/
+
+╔══════════╣ Executable files potentially added by user (limit 70)
+2024-10-26+03:36:50.0145484870 /.dockerenv
+2024-10-26+03:34:56.7998307690 /usr/local/bin/vim-suid
+2024-10-26+03:34:54.7178171670 /home/user/4.path-injection/exploit2.sh
+2024-10-26+03:34:54.7178171670 /home/user/4.path-injection/exploit.sh
+2024-10-26+03:34:54.7178171670 /home/user/3.sudo/exploit.sh
+2024-10-26+03:34:54.7178171670 /home/user/3.sudo/check_sudo.sh
+2024-10-26+03:34:54.7168171610 /home/user/1.suid-sgid/find.sh
+2024-10-26+03:34:54.7158171540 /home/user/6.binary-exploit/2/exploit.sh
+2024-10-26+03:34:54.7158171540 /home/user/1.suid-sgid/exploit.sh
+2024-10-26+03:34:54.7148171480 /home/user/6.binary-exploit/1/exploit.sh
+2024-10-26+03:34:54.7138171410 /home/user/2.capabilities/find_capabilities.sh
+2024-10-26+03:34:54.7138171410 /home/user/2.capabilities/exploit.sh
+2024-10-26+03:34:54.7128171350 /home/user/5.wildcard-cron/exploit-tarcron.sh
+2024-10-26+03:34:54.7128171350 /home/user/5.wildcard-cron/demo-wildcard.sh
+2024-10-26+03:34:54.7128171350 /home/user/0.etc/linpeas.sh
+2024-10-26+03:34:53.1118066750 /usr/local/bin/crackme
+2024-10-26+03:34:53.1088066560 /home/user/6.binary-exploit/2/crackme
+2024-10-26+03:34:52.8418049110 /home/user/6.binary-exploit/1/crackme-static
+2024-10-26+03:34:52.7488043040 /home/user/6.binary-exploit/1/crackme
+2024-10-26+03:34:52.4648024490 /home/user/1.suid-sgid/c-with-sgid
+2024-10-26+03:34:52.2148008150 /home/user/1.suid-sgid/c-with-suid
+2024-10-26+03:34:51.9527991040 /usr/local/bin/pspy64
+2024-10-26+03:34:51.6937974120 /usr/local/bin/backup-cron
+2024-10-26+03:34:51.5027961640 /usr/local/bin/check-processes

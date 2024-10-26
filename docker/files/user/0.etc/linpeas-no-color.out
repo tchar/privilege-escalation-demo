@@ -1,0 +1,939 @@
+
+
+
+                            ▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+                    ▄▄▄▄▄▄▄             ▄▄▄▄▄▄▄▄
+             ▄▄▄▄▄▄▄      ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄
+         ▄▄▄▄     ▄ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄▄
+         ▄    ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+         ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄       ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+         ▄▄▄▄▄▄▄▄▄▄▄          ▄▄▄▄▄▄               ▄▄▄▄▄▄ ▄
+         ▄▄▄▄▄▄              ▄▄▄▄▄▄▄▄                 ▄▄▄▄ 
+         ▄▄                  ▄▄▄ ▄▄▄▄▄                  ▄▄▄
+         ▄▄                ▄▄▄▄▄▄▄▄▄▄▄▄                  ▄▄
+         ▄            ▄▄ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄   ▄▄
+         ▄      ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+         ▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                ▄▄▄▄
+         ▄▄▄▄▄  ▄▄▄▄▄                       ▄▄▄▄▄▄     ▄▄▄▄
+         ▄▄▄▄   ▄▄▄▄▄                       ▄▄▄▄▄      ▄ ▄▄
+         ▄▄▄▄▄  ▄▄▄▄▄        ▄▄▄▄▄▄▄        ▄▄▄▄▄     ▄▄▄▄▄
+         ▄▄▄▄▄▄  ▄▄▄▄▄▄▄      ▄▄▄▄▄▄▄      ▄▄▄▄▄▄▄   ▄▄▄▄▄ 
+          ▄▄▄▄▄▄▄▄▄▄▄▄▄▄        ▄          ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ 
+         ▄▄▄▄▄▄▄▄▄▄▄▄▄                       ▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+         ▄▄▄▄▄▄▄▄▄▄▄                         ▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+         ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄            ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+          ▀▀▄▄▄   ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄▀▀▀▀▀▀
+               ▀▀▀▄▄▄▄▄      ▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▀▀
+                     ▀▀▀▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▀▀▀
+
+    /---------------------------------------------------------------------------------\
+    |                             Do you like PEASS?                                  |
+    |---------------------------------------------------------------------------------|
+    |         Get the latest version    :     https://github.com/sponsors/carlospolop |
+    |         Follow on Twitter         :     @hacktricks_live                        |
+    |         Respect on HTB            :     SirBroccoli                             |
+    |---------------------------------------------------------------------------------|
+    |                                 Thank you!                                      |
+    \---------------------------------------------------------------------------------/
+          LinPEAS-ng by carlospolop
+
+ADVISORY: This script should be used for authorized penetration testing and/or educational purposes only. Any misuse of this software will not be the responsibility of the author or of any other collaborator. Use it at your own computers and/or with the computer owner's permission.
+
+Linux Privesc Checklist: https://book.hacktricks.xyz/linux-hardening/linux-privilege-escalation-checklist
+ LEGEND:
+  RED/YELLOW: 95% a PE vector
+  RED: You should take a look to it
+  LightCyan: Users with console
+  Blue: Users without console & mounted devs
+  Green: Common things (users, groups, SUID/SGID, mounts, .sh scripts, cronjobs) 
+  LightMagenta: Your username
+
+ Starting LinPEAS. Caching Writable Folders...
+                               ╔═══════════════════╗
+═══════════════════════════════╣ Basic information ╠═══════════════════════════════
+                               ╚═══════════════════╝
+OS: Linux version 6.9.3-76060903-generic (jenkins@warp.pop-os.org) (x86_64-linux-gnu-gcc-12 (Ubuntu 12.3.0-1ubuntu1~22.04) 12.3.0, GNU ld (GNU Binutils for Ubuntu) 2.38) #202405300957~1726766035~22.04~4092a0e SMP PREEMPT_DYNAMIC Thu S
+User & Groups: uid=1000(user) gid=1001(user) groups=1001(user),1000(gudo)
+Hostname: fd22c6858a52
+
+[-] No network discovery capabilities (fping or ping not found)
+[+] /usr/bin/bash is available for network discovery, port scanning and port forwarding (LinPEAS can discover hosts, scan ports, and forward ports. Learn more with -h)
+[+] /usr/bin/nc is available for network discovery & port scanning (LinPEAS can discover hosts and scan ports, learn more with -h)
+
+
+Caching directories DONE
+
+                              ╔════════════════════╗
+══════════════════════════════╣ System Information ╠══════════════════════════════
+                              ╚════════════════════╝
+╔══════════╣ Operative system
+╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#kernel-exploits
+Linux version 6.9.3-76060903-generic (jenkins@warp.pop-os.org) (x86_64-linux-gnu-gcc-12 (Ubuntu 12.3.0-1ubuntu1~22.04) 12.3.0, GNU ld (GNU Binutils for Ubuntu) 2.38) #202405300957~1726766035~22.04~4092a0e SMP PREEMPT_DYNAMIC Thu S
+lsb_release Not Found
+
+╔══════════╣ Sudo version
+╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#sudo-version
+Sudo version 1.8.31
+
+
+╔══════════╣ PATH
+╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#writable-path-abuses
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
+
+╔══════════╣ Date & uptime
+Sat Oct 26 03:40:19 UTC 2024
+ 03:40:19 up  9:24,  0 users,  load average: 1.17, 1.18, 1.08
+
+╔══════════╣ Unmounted file-system?
+╚ Check if you can mount umounted devices
+
+╔══════════╣ Any sd*/disk* disk in /dev? (limit 20)
+
+╔══════════╣ Environment
+╚ Any private information inside environment variables?
+SUDO_GID=0
+MAIL=/var/mail/user
+USER=user
+HOSTNAME=fd22c6858a52
+SHLVL=1
+HOME=/home/user
+OLDPWD=/home/user
+SUDO_UID=0
+LOGNAME=user
+_=./linpeas.sh
+TERM=xterm
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
+LS_COLORS=rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:
+SUDO_COMMAND=/usr/bin/bash
+SHELL=/usr/bin/bash
+SUDO_USER=root
+PWD=/home/user/0.etc
+
+╔══════════╣ Searching Signature verification failed in dmesg
+╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#dmesg-signature-verification-failed
+dmesg Not Found
+
+╔══════════╣ Executing Linux Exploit Suggester
+╚ https://github.com/mzet-/linux-exploit-suggester
+[+] [CVE-2022-2586] nft_object UAF
+
+   Details: https://www.openwall.com/lists/oss-security/2022/08/29/5
+   Exposure: less probable
+   Tags: ubuntu=(20.04){kernel:5.12.13}
+   Download URL: https://www.openwall.com/lists/oss-security/2022/08/29/5/1
+   Comments: kernel.unprivileged_userns_clone=1 required (to obtain CAP_NET_ADMIN)
+
+[+] [CVE-2021-22555] Netfilter heap out-of-bounds write
+
+   Details: https://google.github.io/security-research/pocs/linux/cve-2021-22555/writeup.html
+   Exposure: less probable
+   Tags: ubuntu=20.04{kernel:5.8.0-*}
+   Download URL: https://raw.githubusercontent.com/google/security-research/master/pocs/linux/cve-2021-22555/exploit.c
+   ext-url: https://raw.githubusercontent.com/bcoles/kernel-exploits/master/CVE-2021-22555/exploit.c
+   Comments: ip_tables kernel module must be loaded
+
+
+╔══════════╣ Executing Linux Exploit Suggester 2
+╚ https://github.com/jondonas/linux-exploit-suggester-2
+
+╔══════════╣ Protections
+═╣ AppArmor enabled? .............. AppArmor Not Found
+═╣ AppArmor profile? .............. docker-default (enforce)
+═╣ is linuxONE? ................... s390x Not Found
+═╣ grsecurity present? ............ grsecurity Not Found
+═╣ PaX bins present? .............. PaX Not Found
+═╣ Execshield enabled? ............ Execshield Not Found
+═╣ SELinux enabled? ............... sestatus Not Found
+═╣ Seccomp enabled? ............... enabled
+═╣ User namespace? ................ enabled
+═╣ Cgroup2 enabled? ............... enabled
+═╣ Is ASLR enabled? ............... Yes
+═╣ Printer? ....................... No
+═╣ Is this a virtual machine? ..... No
+
+                                   ╔═══════════╗
+═══════════════════════════════════╣ Container ╠═══════════════════════════════════
+                                   ╚═══════════╝
+╔══════════╣ Container related tools present (if any):
+╔══════════╣ Container details
+═╣ Is this a container? ........... docker
+═╣ Any running containers? ........ No
+╔══════════╣ Docker Container details
+═╣ Am I inside Docker group ....... No
+═╣ Looking and enumerating Docker Sockets (if any):
+═╣ Docker version ................. Not Found
+═╣ Vulnerable to CVE-2019-5736 .... Not Found
+═╣ Vulnerable to CVE-2019-13139 ... Not Found
+═╣ Vulnerable to CVE-2021-41091 ... Not Found
+═╣ Rootless Docker? ............... No
+
+
+╔══════════╣ Container & breakout enumeration
+╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation/docker-breakout
+═╣ Container ID ................... fd22c6858a52═╣ Container Full ID .............. /
+═╣ Seccomp enabled? ............... enabled
+═╣ AppArmor profile? .............. docker-default (enforce)
+═╣ User proc namespace? ........... enabled         0          0 4294967295
+═╣ Vulnerable to CVE-2019-5021 .... No
+
+══╣ Breakout via mounts
+╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation/docker-breakout/docker-breakout-privilege-escalation/sensitive-mounts
+═╣ /proc mounted? ................. No
+═╣ /dev mounted? .................. No
+═╣ Run unshare .................... No
+═╣ release_agent breakout 1........ No
+═╣ release_agent breakout 2........ No
+═╣ release_agent breakout 3........ 
+═╣ core_pattern breakout .......... No
+═╣ binfmt_misc breakout ........... No
+═╣ uevent_helper breakout ......... No
+═╣ is modprobe present ............ No
+═╣ DoS via panic_on_oom ........... No
+═╣ DoS via panic_sys_fs ........... No
+═╣ DoS via sysreq_trigger_dos ..... No
+═╣ /proc/config.gz readable ....... No
+═╣ /proc/sched_debug readable ..... No
+═╣ /proc/*/mountinfo readable ..... Yes
+═╣ /sys/kernel/security present ... Yes
+═╣ /sys/kernel/security writable .. No
+
+══╣ Namespaces
+╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation/docker-breakout/namespaces
+total 0
+lrwxrwxrwx 1 user user 0 Oct 26 03:40 cgroup -> cgroup:[4026532905]
+lrwxrwxrwx 1 user user 0 Oct 26 03:40 ipc -> ipc:[4026532848]
+lrwxrwxrwx 1 user user 0 Oct 26 03:40 mnt -> mnt:[4026532846]
+lrwxrwxrwx 1 user user 0 Oct 26 03:40 net -> net:[4026532850]
+lrwxrwxrwx 1 user user 0 Oct 26 03:40 pid -> pid:[4026532849]
+lrwxrwxrwx 1 user user 0 Oct 26 03:40 pid_for_children -> pid:[4026532849]
+lrwxrwxrwx 1 user user 0 Oct 26 03:40 time -> time:[4026531834]
+lrwxrwxrwx 1 user user 0 Oct 26 03:40 time_for_children -> time:[4026531834]
+lrwxrwxrwx 1 user user 0 Oct 26 03:40 user -> user:[4026531837]
+lrwxrwxrwx 1 user user 0 Oct 26 03:40 uts -> uts:[4026532847]
+
+╔══════════╣ Container Capabilities
+╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation/docker-breakout/docker-breakout-privilege-escalation#capabilities-abuse-escape
+WARNING: libcap needs an update (cap=40 should have a name).
+Current: =
+Bounding set =cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap
+Ambient set =
+Securebits: 00/0x0/1'b0
+ secure-noroot: no (unlocked)
+ secure-no-suid-fixup: no (unlocked)
+ secure-keep-caps: no (unlocked)
+ secure-no-ambient-raise: no (unlocked)
+uid=1000(user) euid=1000(user)
+gid=1001(user)
+groups=1000(gudo),1001(user)
+Guessed mode: UNCERTAIN (0)
+
+╔══════════╣ Privilege Mode
+Privilege Mode is disabled
+
+╔══════════╣ Interesting Files Mounted
+overlay on / type overlay (rw,relatime,lowerdir=/var/lib/docker/overlay2/l/7JJJZMAUQDTWS2XKPPTQEN7GE7:/var/lib/docker/overlay2/l/QXBX75GVLHNC76NSLYPVBDSBIH:/var/lib/docker/overlay2/l/I37YKNEDHLKV2KHRG6ZO56M4PR:/var/lib/docker/overlay2/l/PSKTCRVYAHRNSNROTRGTGO4FW3:/var/lib/docker/overlay2/l/OO2R2PHBONKTE6X3DPMXHSC7QS:/var/lib/docker/overlay2/l/BVG6XELJSNNJFEVYOBVJX7V6GO:/var/lib/docker/overlay2/l/46N5RXAXU7FK3WYF7RO5OBM7HD:/var/lib/docker/overlay2/l/6CYFETGIVIQXW6S3XA3MNMQ2XQ:/var/lib/docker/overlay2/l/FFD4ZK4QOJGY2ZFSZRVU54YVEH:/var/lib/docker/overlay2/l/7565O6QO5FGICNZ67AVSF3IBDA:/var/lib/docker/overlay2/l/JEBC5HXQ2SXDNTD35ULAUJXWZ6:/var/lib/docker/overlay2/l/ILVUZX6FBC6DTMCOMG7KXS5FGV:/var/lib/docker/overlay2/l/7JDFLQKCMUZ2ZPGGRH5C32ZA2X:/var/lib/docker/overlay2/l/FXEKCLWTVGHMBKJ4WJPZYY4C5I:/var/lib/docker/overlay2/l/AQTMJP7A3JHRJU35L5XZSHTWHF:/var/lib/docker/overlay2/l/SZ3NZE26SOSCC2A44IE5CYUIWJ:/var/lib/docker/overlay2/l/DVY2OQCXTVNQU3ZGRYSVDU6ZKR:/var/lib/docker/overlay2/l/IY5JJYEPMEKMCNDOAMFI7HHDQC:/var/lib/docker/overlay2/l/KP5HYNQWZANOQUBZ3ZOSVY2ANW:/var/lib/docker/overlay2/l/ZXQ66R7WENBVIIGYCNQBLEAAHZ:/var/lib/docker/overlay2/l/UFYO5RMA7K75NODZWRQZN4N65T:/var/lib/docker/overlay2/l/DZKBNJEOZOXQHSC2EFJZTDUEWQ:/var/lib/docker/overlay2/l/6TKWDDJTLHWHZ4V2IP3FXJGWVH:/var/lib/docker/overlay2/l/PXXLBEEKZ6DI7VDUJGIEVUNRLN:/var/lib/docker/overlay2/l/XQGXEZH7ILLPQ3M5RLCEWMTWK7:/var/lib/docker/overlay2/l/XRDMZL3OVQ2YLR5IT4A4UMCWGT:/var/lib/docker/overlay2/l/YCO5SAFYOB5IUXGK57GOFWXLVU:/var/lib/docker/overlay2/l/5AAAYBNTPBZLLJFR3B7AOGULDT:/var/lib/docker/overlay2/l/ZVACAL2NG6WJBZYLUCAKO7VXAZ:/var/lib/docker/overlay2/l/NH6WUBBX5K7MGZZB2A5ZW5Y6QT:/var/lib/docker/overlay2/l/VZKDWZJEGXVUBTJHQ2SFM6S3J5:/var/lib/docker/overlay2/l/WU3XU6MUKEOO54CDO2Y7BAFW47:/var/lib/docker/overlay2/l/RMI4CAERI7NRYGNCLFSGF3ZBN5:/var/lib/docker/overlay2/l/H2QOOETLHNH6QQWEKVTYJFKV7M:/var/lib/docker/overlay2/l/3KHA3FPD65EURXW5PD7SS7SVQW:/var/lib/docker/overlay2/l/KG32DSSUIV7Q7TSQRGJLQ3LDXW:/var/lib/docker/overlay2/l/CC4VGN2IHSBCSG3XNGSF5MQBTG:/var/lib/docker/overlay2/l/4P5OSXY5R7HUXK3RSQEJJT3TKH:/var/lib/docker/overlay2/l/NVXVJWL3ETGILYE4RCRYOJBZLV:/var/lib/docker/overlay2/l/INUJCJUH3WFL2TMTWCNGNYS6I6:/var/lib/docker/overlay2/l/KL6YZLJO3WQGXUMGIA4BEOE3AU:/var/lib/docker/overlay2/l/DP64OCKOAAXDD5TP4O5T5NXCFS:/var/lib/docker/overlay2/l/KNWNJ3PXY4ZANULM4HWSZOBQH7:/var/lib/docker/overlay2/l/FKL4NW3S4RFDXR6ZDOLRYDOBM5,upperdir=/var/lib/docker/overlay2/7b21419ace51cc603b86191a4c169a56f434c9d910835c7cb80ae3607df19c50/diff,workdir=/var/lib/docker/overlay2/7b21419ace51cc603b86191a4c169a56f434c9d910835c7cb80ae3607df19c50/work)
+proc on /proc type proc (rw,nosuid,nodev,noexec,relatime)
+tmpfs on /dev type tmpfs (rw,nosuid,size=65536k,mode=755,inode64)
+devpts on /dev/pts type devpts (rw,nosuid,noexec,relatime,gid=5,mode=620,ptmxmode=666)
+sysfs on /sys type sysfs (ro,nosuid,nodev,noexec,relatime)
+cgroup on /sys/fs/cgroup type cgroup2 (ro,nosuid,nodev,noexec,relatime,nsdelegate,memory_recursiveprot)
+mqueue on /dev/mqueue type mqueue (rw,nosuid,nodev,noexec,relatime)
+shm on /dev/shm type tmpfs (rw,nosuid,nodev,noexec,relatime,size=65536k,inode64)
+/dev/nvme0n1p1 on /etc/resolv.conf type ext4 (rw,noatime,errors=remount-ro)
+/dev/nvme0n1p1 on /etc/hostname type ext4 (rw,noatime,errors=remount-ro)
+/dev/nvme0n1p1 on /etc/hosts type ext4 (rw,noatime,errors=remount-ro)
+proc on /proc/bus type proc (ro,nosuid,nodev,noexec,relatime)
+proc on /proc/fs type proc (ro,nosuid,nodev,noexec,relatime)
+proc on /proc/irq type proc (ro,nosuid,nodev,noexec,relatime)
+proc on /proc/sys type proc (ro,nosuid,nodev,noexec,relatime)
+proc on /proc/sysrq-trigger type proc (ro,nosuid,nodev,noexec,relatime)
+tmpfs on /proc/asound type tmpfs (ro,relatime,inode64)
+tmpfs on /proc/acpi type tmpfs (ro,relatime,inode64)
+tmpfs on /proc/kcore type tmpfs (rw,nosuid,size=65536k,mode=755,inode64)
+tmpfs on /proc/keys type tmpfs (rw,nosuid,size=65536k,mode=755,inode64)
+tmpfs on /proc/latency_stats type tmpfs (rw,nosuid,size=65536k,mode=755,inode64)
+tmpfs on /proc/timer_list type tmpfs (rw,nosuid,size=65536k,mode=755,inode64)
+tmpfs on /proc/scsi type tmpfs (ro,relatime,inode64)
+tmpfs on /sys/firmware type tmpfs (ro,relatime,inode64)
+tmpfs on /sys/devices/virtual/powercap type tmpfs (ro,relatime,inode64)
+
+╔══════════╣ Possible Entrypoints
+-rwx------ 1 root root 64 Oct 26 03:34 /entrypoint.sh
+
+╔══════════╣ Am I Containered?
+
+══╣ Running AmIContainered
+╚ https://github.com/genuinetools/amicontained
+
+
+
+                                     ╔═══════╗
+═════════════════════════════════════╣ Cloud ╠═════════════════════════════════════
+                                     ╚═══════╝
+═╣ GCP Virtual Machine? ................. No
+═╣ GCP Cloud Funtion? ................... No
+═╣ AWS ECS? ............................. No
+═╣ AWS EC2? ............................. No
+═╣ AWS EC2 Beanstalk? ................... No
+═╣ AWS Lambda? .......................... No
+═╣ AWS Codebuild? ....................... No
+═╣ DO Droplet? .......................... No
+═╣ IBM Cloud VM? ........................ No
+═╣ Azure VM? ............................ No
+═╣ Azure APP? ........................... No
+═╣ Aliyun ECS? .......................... 
+═╣ Tencent CVM? ......................... No
+
+
+
+                ╔════════════════════════════════════════════════╗
+════════════════╣ Processes, Crons, Timers, Services and Sockets ╠════════════════
+                ╚════════════════════════════════════════════════╝
+╔══════════╣ Running processes (cleaned)
+╚ Check weird & unexpected proceses run by root: https://book.hacktricks.xyz/linux-hardening/privilege-escalation#processes
+root           1  0.0  0.0   2616  1664 pts/0    SNs  03:36   0:00 /bin/sh -c /usr/bin/sh /entrypoint.sh
+root           7  0.0  0.0   2616  1536 pts/0    SN   03:36   0:00 /usr/bin/sh /entrypoint.sh
+root          22  0.0  0.0   5548  3584 pts/0    SN   03:36   0:00  _ sudo -H -u user /usr/bin/bash
+user          23  0.0  0.0   4248  3456 pts/0    SN   03:36   0:00      _ /usr/bin/bash
+user       24361  6.7  0.1  35500 26192 pts/0    SN+  03:40   0:00          _ /bin/sh ./linpeas.sh
+user       26723  0.0  0.1  35500 25232 pts/0    SN+  03:40   0:00              _ /bin/sh ./linpeas.sh
+user       26725  0.0  0.0   5900  2688 pts/0    RN+  03:40   0:00              |   _ ps fauxwww
+user       26727  0.0  0.1  35500 25232 pts/0    SN+  03:40   0:00              _ /bin/sh ./linpeas.sh
+root          20  0.0  0.0   3828  2176 ?        SNs  03:36   0:00 /usr/sbin/cron
+
+
+╔══════════╣ Processes with credentials in memory (root req)
+╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#credentials-from-process-memory
+gdm-password Not Found
+gnome-keyring-daemon Not Found
+lightdm Not Found
+vsftpd Not Found
+apache2 Not Found
+sshd Not Found
+
+╔══════════╣ Processes whose PPID belongs to a different user (not root)
+╚ You will know if a user can somehow spawn processes as a different user
+Proc 23 with ppid 22 is run by user user but the ppid user is root
+
+╔══════════╣ Files opened by processes belonging to other users
+╚ This is usually empty because of the lack of privileges to read other user processes information
+
+╔══════════╣ Systemd PATH
+╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#systemd-path-relative-paths
+
+╔══════════╣ Cron jobs
+╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#scheduled-cron-jobs
+/usr/bin/crontab
+incrontab Not Found
+-rw-r--r-- 1 root root    1088 Oct 26 03:34 /etc/crontab
+
+/etc/cron.d:
+total 16
+drwxr-xr-x 1 root root 4096 Oct 26 03:14 .
+drwxr-xr-x 1 root root 4096 Oct 26 03:36 ..
+-rw-r--r-- 1 root root  102 Feb 13  2020 .placeholder
+-rw-r--r-- 1 root root  201 Feb 14  2020 e2scrub_all
+
+/etc/cron.daily:
+total 20
+drwxr-xr-x 1 root root 4096 Oct 26 03:14 .
+drwxr-xr-x 1 root root 4096 Oct 26 03:36 ..
+-rw-r--r-- 1 root root  102 Feb 13  2020 .placeholder
+-rwxr-xr-x 1 root root 1478 Apr  9  2020 apt-compat
+-rwxr-xr-x 1 root root 1187 Sep  5  2019 dpkg
+
+/etc/cron.hourly:
+total 12
+drwxr-xr-x 2 root root 4096 Oct 26 03:14 .
+drwxr-xr-x 1 root root 4096 Oct 26 03:36 ..
+-rw-r--r-- 1 root root  102 Feb 13  2020 .placeholder
+
+/etc/cron.monthly:
+total 12
+drwxr-xr-x 2 root root 4096 Oct 26 03:14 .
+drwxr-xr-x 1 root root 4096 Oct 26 03:36 ..
+-rw-r--r-- 1 root root  102 Feb 13  2020 .placeholder
+
+/etc/cron.weekly:
+total 12
+drwxr-xr-x 2 root root 4096 Oct 26 03:14 .
+drwxr-xr-x 1 root root 4096 Oct 26 03:36 ..
+-rw-r--r-- 1 root root  102 Feb 13  2020 .placeholder
+
+
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+17 *	* * *	root    cd / && run-parts --report /etc/cron.hourly
+25 6	* * *	root	test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.daily )
+47 6	* * 7	root	test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.weekly )
+52 6	1 * *	root	test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.monthly )
+*/1 *	* * * 	root	/usr/local/bin/backup-cron
+
+╔══════════╣ System timers
+╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#timers
+
+╔══════════╣ Analyzing .timer files
+╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#timers
+
+╔══════════╣ Analyzing .service files
+╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#services
+You can't write on systemd PATH
+
+╔══════════╣ Analyzing .socket files
+╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#sockets
+
+╔══════════╣ Unix Sockets Listening
+╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#sockets
+
+╔══════════╣ D-Bus Service Objects list
+╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#d-bus
+busctl Not Found
+╔══════════╣ D-Bus config files
+╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#d-bus
+
+
+
+                              ╔═════════════════════╗
+══════════════════════════════╣ Network Information ╠══════════════════════════════
+                              ╚═════════════════════╝
+╔══════════╣ Interfaces
+# symbolic names for networks, see networks(5) for more information
+link-local 169.254.0.0
+Inter-|   Receive                                                |  Transmit
+ face |bytes    packets errs drop fifo frame compressed multicast|bytes    packets errs drop fifo colls carrier compressed
+    lo:       0       0    0    0    0     0          0         0        0       0    0    0    0     0       0          0
+  eth0:    1712       8    0    0    0     0          0         0        0       0    0    0    0     0       0          0
+Main:
+  +-- 0.0.0.0/0 3 0 5
+     |-- 0.0.0.0
+        /0 universe UNICAST
+     +-- 127.0.0.0/8 2 0 2
+        +-- 127.0.0.0/31 1 0 0
+           |-- 127.0.0.0
+              /8 host LOCAL
+           |-- 127.0.0.1
+              /32 host LOCAL
+        |-- 127.255.255.255
+           /32 link BROADCAST
+     +-- 172.17.0.0/16 2 0 2
+        +-- 172.17.0.0/30 2 0 2
+           |-- 172.17.0.0
+              /16 link UNICAST
+           |-- 172.17.0.2
+              /32 host LOCAL
+        |-- 172.17.255.255
+           /32 link BROADCAST
+Local:
+  +-- 0.0.0.0/0 3 0 5
+     |-- 0.0.0.0
+        /0 universe UNICAST
+     +-- 127.0.0.0/8 2 0 2
+        +-- 127.0.0.0/31 1 0 0
+           |-- 127.0.0.0
+              /8 host LOCAL
+           |-- 127.0.0.1
+              /32 host LOCAL
+        |-- 127.255.255.255
+           /32 link BROADCAST
+     +-- 172.17.0.0/16 2 0 2
+        +-- 172.17.0.0/30 2 0 2
+           |-- 172.17.0.0
+              /16 link UNICAST
+           |-- 172.17.0.2
+              /32 host LOCAL
+        |-- 172.17.255.255
+           /32 link BROADCAST
+
+╔══════════╣ Hostname, hosts and DNS
+fd22c6858a52
+127.0.0.1	localhost
+::1	localhost ip6-localhost ip6-loopback
+fe00::0	ip6-localnet
+ff00::0	ip6-mcastprefix
+ff02::1	ip6-allnodes
+ff02::2	ip6-allrouters
+172.17.0.2	fd22c6858a52
+
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+nameserver 103.86.96.100
+nameserver 103.86.99.100
+search .
+
+
+╔══════════╣ Active Ports
+╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#open-ports
+
+╔══════════╣ Can I sniff with tcpdump?
+No
+
+
+
+                               ╔═══════════════════╗
+═══════════════════════════════╣ Users Information ╠═══════════════════════════════
+                               ╚═══════════════════╝
+╔══════════╣ My user
+╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#users
+uid=1000(user) gid=1001(user) groups=1001(user),1000(gudo)
+
+╔══════════╣ Do I have PGP keys?
+gpg Not Found
+netpgpkeys Not Found
+netpgp Not Found
+
+╔══════════╣ Checking 'sudo -l', /etc/sudoers, and /etc/sudoers.d
+╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#sudo-and-suid
+
+╔══════════╣ Checking sudo tokens
+╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#reusing-sudo-tokens
+ptrace protection is enabled (1)
+
+╔══════════╣ Checking Pkexec policy
+╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation/interesting-groups-linux-pe#pe-method-2
+
+╔══════════╣ Superusers
+root:x:0:0:root:/root:/bin/bash
+
+╔══════════╣ Users with console
+root:x:0:0:root:/root:/bin/bash
+user:x:1000:1001::/home/user:/usr/bin/bash
+
+╔══════════╣ All users & groups
+uid=0(root) gid=0(root) groups=0(root)
+uid=1(daemon[0m) gid=1(daemon[0m) groups=1(daemon[0m)
+uid=10(uucp) gid=10(uucp) groups=10(uucp)
+uid=100(_apt) gid=65534(nogroup) groups=65534(nogroup)
+uid=1000(user) gid=1001(user) groups=1001(user),1000(gudo)
+uid=13(proxy) gid=13(proxy) groups=13(proxy)
+uid=2(bin) gid=2(bin) groups=2(bin)
+uid=3(sys) gid=3(sys) groups=3(sys)
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+uid=34(backup) gid=34(backup) groups=34(backup)
+uid=38(list) gid=38(list) groups=38(list)
+uid=39(irc) gid=39(irc) groups=39(irc)
+uid=4(sync) gid=65534(nogroup) groups=65534(nogroup)
+uid=41(gnats) gid=41(gnats) groups=41(gnats)
+uid=5(games) gid=60(games) groups=60(games)
+uid=6(man) gid=12(man) groups=12(man)
+uid=65534(nobody) gid=65534(nogroup) groups=65534(nogroup)
+uid=7(lp) gid=7(lp) groups=7(lp)
+uid=8(mail) gid=8(mail) groups=8(mail)
+uid=9(news) gid=9(news) groups=9(news)
+
+╔══════════╣ Login now
+ 03:40:22 up  9:24,  0 users,  load average: 1.15, 1.17, 1.08
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+
+╔══════════╣ Last logons
+
+wtmp begins Sat Oct 26 03:13:33 2024
+
+╔══════════╣ Last time logon each user
+Username         Port     From             Latest
+
+╔══════════╣ Do not forget to test 'su' as any other user with shell: without password and with their names as password (I don't do it in FAST mode...)
+
+╔══════════╣ Do not forget to execute 'sudo -l' without password or with valid password (if you know it)!!
+
+
+
+                             ╔══════════════════════╗
+═════════════════════════════╣ Software Information ╠═════════════════════════════
+                             ╚══════════════════════╝
+╔══════════╣ Useful software
+/usr/bin/base64
+/usr/bin/gcc
+/usr/bin/gdb
+/usr/bin/make
+/usr/bin/nc
+/usr/bin/nc.traditional
+/usr/bin/netcat
+/usr/bin/perl
+/usr/local/bin/python
+/usr/bin/python3
+/usr/bin/sudo
+
+╔══════════╣ Installed Compilers
+ii  gcc                        4:9.3.0-1ubuntu2             amd64        GNU C compiler
+ii  gcc-9                      9.4.0-1ubuntu1~20.04.2       amd64        GNU C compiler
+/usr/bin/gcc
+
+╔══════════╣ Analyzing PAM Auth Files (limit 70)
+drwxr-xr-x 1 root root 4096 Oct 26 03:14 /etc/pam.d
+
+
+╔══════════╣ Analyzing Keyring Files (limit 70)
+drwxr-xr-x 2 root root 4096 Oct 11 02:09 /usr/share/keyrings
+
+
+
+
+╔══════════╣ Analyzing Other Interesting Files (limit 70)
+-rw-r--r-- 1 root root 3771 Feb 25  2020 /etc/skel/.bashrc
+-rw-rw-r-- 1 user user 3770 Oct 26 03:34 /home/user/.bashrc
+
+
+
+
+
+-rw-r--r-- 1 root root 807 Feb 25  2020 /etc/skel/.profile
+-rw-rw-r-- 1 user user 807 Oct 26 03:34 /home/user/.profile
+
+
+
+
+
+
+╔══════════╣ Analyzing PGP-GPG Files (limit 70)
+gpg Not Found
+netpgpkeys Not Found
+netpgp Not Found
+
+-rw-r--r-- 1 root root 2796 Mar 29  2021 /etc/apt/trusted.gpg.d/ubuntu-keyring-2012-archive.gpg
+-rw-r--r-- 1 root root 2794 Mar 29  2021 /etc/apt/trusted.gpg.d/ubuntu-keyring-2012-cdimage.gpg
+-rw-r--r-- 1 root root 1733 Mar 29  2021 /etc/apt/trusted.gpg.d/ubuntu-keyring-2018-archive.gpg
+-rw-r--r-- 1 root root 7399 Sep 17  2018 /usr/share/keyrings/ubuntu-archive-keyring.gpg
+-rw-r--r-- 1 root root 6713 Oct 27  2016 /usr/share/keyrings/ubuntu-archive-removed-keys.gpg
+-rw-r--r-- 1 root root 4097 Feb  6  2018 /usr/share/keyrings/ubuntu-cloudimage-keyring.gpg
+-rw-r--r-- 1 root root 0 Jan 17  2018 /usr/share/keyrings/ubuntu-cloudimage-removed-keys.gpg
+-rw-r--r-- 1 root root 1227 May 27  2010 /usr/share/keyrings/ubuntu-master-keyring.gpg
+
+
+╔══════════╣ Searching uncommon passwd files (splunk)
+passwd file: /etc/pam.d/passwd
+passwd file: /etc/passwd
+passwd file: /usr/share/lintian/overrides/passwd
+
+╔══════════╣ Searching ssl/ssh files
+══╣ Some certificates were found (out limited):
+/etc/ssl/certs/ACCVRAIZ1.pem
+/etc/ssl/certs/AC_RAIZ_FNMT-RCM.pem
+/etc/ssl/certs/AC_RAIZ_FNMT-RCM_SERVIDORES_SEGUROS.pem
+/etc/ssl/certs/ANF_Secure_Server_Root_CA.pem
+/etc/ssl/certs/Actalis_Authentication_Root_CA.pem
+/etc/ssl/certs/AffirmTrust_Commercial.pem
+/etc/ssl/certs/AffirmTrust_Networking.pem
+/etc/ssl/certs/AffirmTrust_Premium.pem
+/etc/ssl/certs/AffirmTrust_Premium_ECC.pem
+/etc/ssl/certs/Amazon_Root_CA_1.pem
+/etc/ssl/certs/Amazon_Root_CA_2.pem
+/etc/ssl/certs/Amazon_Root_CA_3.pem
+/etc/ssl/certs/Amazon_Root_CA_4.pem
+/etc/ssl/certs/Atos_TrustedRoot_2011.pem
+/etc/ssl/certs/Atos_TrustedRoot_Root_CA_ECC_TLS_2021.pem
+/etc/ssl/certs/Atos_TrustedRoot_Root_CA_RSA_TLS_2021.pem
+/etc/ssl/certs/Autoridad_de_Certificacion_Firmaprofesional_CIF_A62634068.pem
+/etc/ssl/certs/BJCA_Global_Root_CA1.pem
+/etc/ssl/certs/BJCA_Global_Root_CA2.pem
+/etc/ssl/certs/Baltimore_CyberTrust_Root.pem
+24361PSTORAGE_CERTSBIN
+
+
+╔══════════╣ Searching tmux sessions
+╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#open-shell-sessions
+tmux 3.0a
+
+
+/tmp/tmux-1000
+
+
+
+                      ╔════════════════════════════════════╗
+══════════════════════╣ Files with Interesting Permissions ╠══════════════════════
+                      ╚════════════════════════════════════╝
+╔══════════╣ SUID - Check easy privesc, exploits and write perms
+╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#sudo-and-suid
+-rwsr-xr-x 1 root root 17K Oct 26 03:34 /usr/local/bin/check-processes (Unknown SUID binary!)
+-rwsr-xr-x 1 root root 2.8M Oct 26 03:34 /usr/local/bin/vim-suid (Unknown SUID binary!)
+-rwsr-xr-x 1 root root 55K Apr  9  2024 /usr/bin/mount  --->  Apple_Mac_OSX(Lion)_Kernel_xnu-1699.32.7_except_xnu-1699.24.8
+-rwsr-xr-x 1 root root 87K Feb  6  2024 /usr/bin/gpasswd
+-rwsr-xr-x 1 root root 39K Apr  9  2024 /usr/bin/umount  --->  BSD/Linux(08-1996)
+-rwsr-xr-x 1 root root 84K Feb  6  2024 /usr/bin/chfn  --->  SuSE_9.3/10
+-rwsr-xr-x 1 root root 52K Feb  6  2024 /usr/bin/chsh
+-rwsr-xr-x 1 root root 44K Feb  6  2024 /usr/bin/newgrp  --->  HP-UX_10.20
+-rwsr-xr-x 1 root root 67K Feb  6  2024 /usr/bin/passwd  --->  Apple_Mac_OSX(03-2006)/Solaris_8/9(12-2004)/SPARC_8/9/Sun_Solaris_2.3_to_2.5.1(02-1997)
+-rwsr-xr-x 1 root root 67K Apr  9  2024 /usr/bin/su
+-rwsr-xr-x 1 root root 163K Apr  4  2023 /usr/bin/sudo  --->  check_if_the_sudo_version_is_vulnerable
+-rwsrwxr-x 1 root root 298 Oct 26 03:34 /home/user/1.suid-sgid/python-with-suid.py (Unknown SUID binary!)
+-rwsrwxr-x 1 root root 17K Oct 26 03:34 /home/user/1.suid-sgid/c-with-suid (Unknown SUID binary!)
+
+╔══════════╣ SGID
+╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#sudo-and-suid
+-rwxr-sr-x 1 root utmp 15K Sep 30  2019 /usr/lib/x86_64-linux-gnu/utempter/utempter
+-rwxr-sr-x 1 root shadow 43K Jan 10  2024 /usr/sbin/unix_chkpwd
+-rwxr-sr-x 1 root shadow 43K Jan 10  2024 /usr/sbin/pam_extrausers_chkpwd
+-rwxr-sr-x 1 root shadow 83K Feb  6  2024 /usr/bin/chage
+-rwxr-sr-x 1 root shadow 31K Feb  6  2024 /usr/bin/expiry
+-rwxr-sr-x 1 root crontab 43K Feb 13  2020 /usr/bin/crontab
+-rwxr-sr-x 1 root shadow 17K Oct 26 03:34 /home/user/1.suid-sgid/c-with-sgid (Unknown SGID binary)
+
+╔══════════╣ Files with ACLs (limited to 50)
+╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#acls
+files with acls in searched folders Not Found
+
+╔══════════╣ Capabilities
+╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#capabilities
+══╣ Current shell capabilities
+CapInh:  WARNING: libcap needs an update (cap=40 should have a name).
+0x0000000000000000=
+CapPrm:  WARNING: libcap needs an update (cap=40 should have a name).
+0x0000000000000000=
+CapEff:	 WARNING: libcap needs an update (cap=40 should have a name).
+0x0000000000000000=
+CapBnd:  WARNING: libcap needs an update (cap=40 should have a name).
+0x00000000a80425fb=cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap
+CapAmb:  WARNING: libcap needs an update (cap=40 should have a name).
+0x0000000000000000=
+
+╚ Parent process capabilities
+CapInh:	 WARNING: libcap needs an update (cap=40 should have a name).
+0x0000000000000000=
+CapPrm:	 WARNING: libcap needs an update (cap=40 should have a name).
+0x0000000000000000=
+CapEff:	 WARNING: libcap needs an update (cap=40 should have a name).
+0x0000000000000000=
+CapBnd:	 WARNING: libcap needs an update (cap=40 should have a name).
+0x00000000a80425fb=cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap
+CapAmb:	 WARNING: libcap needs an update (cap=40 should have a name).
+0x0000000000000000=
+
+
+Files with capabilities (limited to 50):
+/usr/local/bin/python = cap_setuid+ep
+
+╔══════════╣ Users with capabilities
+╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#capabilities
+
+╔══════════╣ Checking misconfigurations of ld.so
+╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#ld.so
+/etc/ld.so.conf
+Content of /etc/ld.so.conf:
+include /etc/ld.so.conf.d/*.conf
+
+/etc/ld.so.conf.d
+  /etc/ld.so.conf.d/libc.conf
+  - /usr/local/lib
+  /etc/ld.so.conf.d/x86_64-linux-gnu.conf
+  - /usr/local/lib/x86_64-linux-gnu
+  - /lib/x86_64-linux-gnu
+  - /usr/lib/x86_64-linux-gnu
+
+/etc/ld.so.preload
+╔══════════╣ Files (scripts) in /etc/profile.d/
+╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#profiles-files
+total 12
+drwxr-xr-x 2 root root 4096 Oct 11 02:09 .
+drwxr-xr-x 1 root root 4096 Oct 26 03:36 ..
+-rw-r--r-- 1 root root   96 Dec  5  2019 01-locale-fix.sh
+
+╔══════════╣ Permissions in init, init.d, systemd, and rc.d
+╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#init-init-d-systemd-and-rc-d
+
+═╣ Hashes inside passwd file? ........... No
+═╣ Writable passwd file? ................ No
+═╣ Credentials in fstab/mtab? ........... No
+═╣ Can I read shadow files? ............. No
+═╣ Can I read shadow plists? ............ No
+═╣ Can I write shadow plists? ........... No
+═╣ Can I read opasswd file? ............. No
+═╣ Can I write in network-scripts? ...... No
+═╣ Can I read root folder? .............. No
+
+╔══════════╣ Searching root files in home dirs (limit 30)
+/home/
+/home/user/1.suid-sgid/python-with-suid.py
+/home/user/1.suid-sgid/c-with-sgid
+/home/user/1.suid-sgid/c-with-suid
+/root/
+
+╔══════════╣ Searching folders owned by me containing others files on it (limit 100)
+-rwsrwxr-x 1 root root 16920 Oct 26 03:34 /home/user/1.suid-sgid/c-with-suid
+-rwsrwxr-x 1 root root 298 Oct 26 03:34 /home/user/1.suid-sgid/python-with-suid.py
+-rwxr-sr-x 1 root shadow 16744 Oct 26 03:34 /home/user/1.suid-sgid/c-with-sgid
+
+╔══════════╣ Readable files belonging to root and readable by me but not world readable
+
+╔══════════╣ Interesting writable files owned by me or writable by everyone (not in Home) (max 200)
+╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#writable-files
+/dev/mqueue
+/dev/shm
+/home/user
+/run/lock
+/tmp
+/tmp/tmux-1000
+/var/tmp
+
+╔══════════╣ Interesting GROUP writable files (not in Home) (max 200)
+╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#writable-files
+  Group user:
+/home/user
+
+
+
+                            ╔═════════════════════════╗
+════════════════════════════╣ Other Interesting Files ╠════════════════════════════
+                            ╚═════════════════════════╝
+╔══════════╣ .sh files in path
+╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#script-binaries-in-path
+
+╔══════════╣ Executable files potentially added by user (limit 70)
+2024-10-26+03:36:50.0145484870 /.dockerenv
+2024-10-26+03:34:56.7998307690 /usr/local/bin/vim-suid
+2024-10-26+03:34:54.7178171670 /home/user/4.path-injection/exploit2.sh
+2024-10-26+03:34:54.7178171670 /home/user/4.path-injection/exploit.sh
+2024-10-26+03:34:54.7178171670 /home/user/3.sudo/exploit.sh
+2024-10-26+03:34:54.7178171670 /home/user/3.sudo/check_sudo.sh
+2024-10-26+03:34:54.7168171610 /home/user/1.suid-sgid/find.sh
+2024-10-26+03:34:54.7158171540 /home/user/6.binary-exploit/2/exploit.sh
+2024-10-26+03:34:54.7158171540 /home/user/1.suid-sgid/exploit.sh
+2024-10-26+03:34:54.7148171480 /home/user/6.binary-exploit/1/exploit.sh
+2024-10-26+03:34:54.7138171410 /home/user/2.capabilities/find_capabilities.sh
+2024-10-26+03:34:54.7138171410 /home/user/2.capabilities/exploit.sh
+2024-10-26+03:34:54.7128171350 /home/user/5.wildcard-cron/exploit-tarcron.sh
+2024-10-26+03:34:54.7128171350 /home/user/5.wildcard-cron/demo-wildcard.sh
+2024-10-26+03:34:54.7128171350 /home/user/0.etc/linpeas.sh
+2024-10-26+03:34:53.1118066750 /usr/local/bin/crackme
+2024-10-26+03:34:53.1088066560 /home/user/6.binary-exploit/2/crackme
+2024-10-26+03:34:52.8418049110 /home/user/6.binary-exploit/1/crackme-static
+2024-10-26+03:34:52.7488043040 /home/user/6.binary-exploit/1/crackme
+2024-10-26+03:34:52.4648024490 /home/user/1.suid-sgid/c-with-sgid
+2024-10-26+03:34:52.2148008150 /home/user/1.suid-sgid/c-with-suid
+2024-10-26+03:34:51.9527991040 /usr/local/bin/pspy64
+2024-10-26+03:34:51.6937974120 /usr/local/bin/backup-cron
+2024-10-26+03:34:51.5027961640 /usr/local/bin/check-processes
+
+╔══════════╣ Unexpected in root
+/.dockerenv
+/entrypoint.sh
+
+╔══════════╣ Modified interesting files in the last 5mins (limit 100)
+/etc/resolv.conf
+/etc/hosts
+/etc/hostname
+/.dockerenv
+
+
+╔══════════╣ Files inside /home/user (limit 20)
+total 92
+drwxrwxr-x 1 user user 4096 Oct 26 03:34 .
+drwxr-xr-x 1 root root 4096 Oct 26 03:34 ..
+-rw-rw-r-- 1 user user  220 Oct 26 03:34 .bash_logout
+-rw-rw-r-- 1 user user 3770 Oct 26 03:34 .bashrc
+-rw-rw-r-- 1 user user  807 Oct 26 03:34 .profile
+drwxrwxr-x 1 user user 4096 Oct 26 03:40 0.etc
+drwxrwxr-x 1 user user 4096 Oct 26 03:34 0.file-permissions
+drwxrwxr-x 1 user user 4096 Oct 26 03:34 1.suid-sgid
+drwxrwxr-x 1 user user 4096 Oct 26 03:34 2.capabilities
+drwxrwxr-x 1 user user 4096 Oct 26 03:34 3.sudo
+drwxrwxr-x 1 user user 4096 Oct 26 03:34 4.path-injection
+drwxrwxr-x 1 user user 4096 Oct 26 03:34 5.wildcard-cron
+drwxrwxr-x 1 user user 4096 Oct 26 03:34 6.binary-exploit
+drwxr-xr-x 1 user user 4096 Oct 26 03:34 backup
+
+╔══════════╣ Files inside others home (limit 20)
+
+╔══════════╣ Searching installed mail applications
+
+╔══════════╣ Mails (limit 50)
+
+╔══════════╣ Backup folders
+drwxr-xr-x 1 user user 4096 Oct 26 03:34 /home/user/backup
+total 0
+
+drwxr-xr-x 2 root root 4096 Apr 15  2020 /var/backups
+total 0
+
+
+╔══════════╣ Backup files (limited 100)
+-rwxr-xr-x 1 root root 173 Oct 26 03:34 /usr/local/bin/backup-cron
+
+
+╔══════════╣ Web files?(output limit)
+
+╔══════════╣ All relevant hidden files (not in /sys/ or the ones listed in the previous check) (limit 70)
+-rw------- 1 root root 0 Oct 11 02:03 /etc/.pwd.lock
+-rw-r--r-- 1 root root 220 Feb 25  2020 /etc/skel/.bash_logout
+-rw-rw-r-- 1 user user 220 Oct 26 03:34 /home/user/.bash_logout
+
+╔══════════╣ Readable files inside /tmp, /var/tmp, /private/tmp, /private/var/at/tmp, /private/var/tmp, and backup folders (limit 70)
+
+╔══════════╣ Searching *password* or *credential* files in home (limit 70)
+/etc/pam.d/common-password
+/usr/share/pam/common-password
+/usr/share/pam/common-password.md5sums
+/var/cache/debconf/passwords.dat
+/var/lib/pam/password
+
+╔══════════╣ Checking for TTY (sudo/su) passwords in audit logs
+
+╔══════════╣ Checking for TTY (sudo/su) passwords in audit logs
+
+╔══════════╣ Searching passwords inside logs (limit 70)
+ base-passwd depends on libc6 (>= 2.8); however:
+ base-passwd depends on libdebconfclient0 (>= 0.145); however:
+2024-10-11 02:03:34 configure base-passwd:amd64 3.5.47 3.5.47
+2024-10-11 02:03:34 install base-passwd:amd64 <none> 3.5.47
+2024-10-11 02:03:34 status half-configured base-passwd:amd64 3.5.47
+2024-10-11 02:03:34 status half-installed base-passwd:amd64 3.5.47
+2024-10-11 02:03:34 status installed base-passwd:amd64 3.5.47
+2024-10-11 02:03:34 status unpacked base-passwd:amd64 3.5.47
+2024-10-11 02:03:35 status half-configured base-passwd:amd64 3.5.47
+2024-10-11 02:03:35 status half-installed base-passwd:amd64 3.5.47
+2024-10-11 02:03:35 status unpacked base-passwd:amd64 3.5.47
+2024-10-11 02:03:35 upgrade base-passwd:amd64 3.5.47 3.5.47
+2024-10-11 02:03:38 install passwd:amd64 <none> 1:4.8.1-1ubuntu5
+2024-10-11 02:03:38 status half-installed passwd:amd64 1:4.8.1-1ubuntu5
+2024-10-11 02:03:38 status unpacked passwd:amd64 1:4.8.1-1ubuntu5
+2024-10-11 02:03:40 configure base-passwd:amd64 3.5.47 <none>
+2024-10-11 02:03:40 status half-configured base-passwd:amd64 3.5.47
+2024-10-11 02:03:40 status installed base-passwd:amd64 3.5.47
+2024-10-11 02:03:40 status unpacked base-passwd:amd64 3.5.47
+2024-10-11 02:03:41 configure passwd:amd64 1:4.8.1-1ubuntu5 <none>
+2024-10-11 02:03:41 status half-configured passwd:amd64 1:4.8.1-1ubuntu5
+2024-10-11 02:03:41 status installed passwd:amd64 1:4.8.1-1ubuntu5
+2024-10-11 02:03:41 status unpacked passwd:amd64 1:4.8.1-1ubuntu5
+2024-10-11 02:03:57 configure base-passwd:amd64 3.5.47 <none>
+2024-10-11 02:03:57 status half-configured base-passwd:amd64 3.5.47
+2024-10-11 02:03:57 status half-installed base-passwd:amd64 3.5.47
+2024-10-11 02:03:57 status installed base-passwd:amd64 3.5.47
+2024-10-11 02:03:57 status unpacked base-passwd:amd64 3.5.47
+2024-10-11 02:03:57 upgrade base-passwd:amd64 3.5.47 3.5.47
+2024-10-11 02:08:32 configure passwd:amd64 1:4.8.1-1ubuntu5 <none>
+2024-10-11 02:08:32 status half-configured passwd:amd64 1:4.8.1-1ubuntu5
+2024-10-11 02:08:32 status half-installed passwd:amd64 1:4.8.1-1ubuntu5
+2024-10-11 02:08:32 status installed passwd:amd64 1:4.8.1-1ubuntu5
+2024-10-11 02:08:32 status unpacked passwd:amd64 1:4.8.1-1ubuntu5
+2024-10-11 02:08:32 upgrade passwd:amd64 1:4.8.1-1ubuntu5 1:4.8.1-1ubuntu5
+2024-10-11 02:09:19 configure passwd:amd64 1:4.8.1-1ubuntu5.20.04.5 <none>
+2024-10-11 02:09:19 status half-configured passwd:amd64 1:4.8.1-1ubuntu5
+2024-10-11 02:09:19 status half-configured passwd:amd64 1:4.8.1-1ubuntu5.20.04.5
+2024-10-11 02:09:19 status half-installed passwd:amd64 1:4.8.1-1ubuntu5
+2024-10-11 02:09:19 status installed passwd:amd64 1:4.8.1-1ubuntu5.20.04.5
+2024-10-11 02:09:19 status unpacked passwd:amd64 1:4.8.1-1ubuntu5
+2024-10-11 02:09:19 status unpacked passwd:amd64 1:4.8.1-1ubuntu5.20.04.5
+2024-10-11 02:09:19 upgrade passwd:amd64 1:4.8.1-1ubuntu5 1:4.8.1-1ubuntu5.20.04.5
+Commandline: apt-get install --reinstall base-passwd
+Commandline: apt-get install --reinstall passwd
+Preparing to unpack .../base-passwd_3.5.47_amd64.deb ...
+Preparing to unpack .../passwd_1%3a4.8.1-1ubuntu5_amd64.deb ...
+Reinstall: base-passwd:amd64 (3.5.47)
+Reinstall: passwd:amd64 (1:4.8.1-1ubuntu5)
+Selecting previously unselected package base-passwd.
+Selecting previously unselected package passwd.
+Setting up base-passwd (3.5.47) ...
+Setting up passwd (1:4.8.1-1ubuntu5) ...
+Shadow passwords are now on.
+Unpacking base-passwd (3.5.47) ...
+Unpacking base-passwd (3.5.47) over (3.5.47) ...
+Unpacking passwd (1:4.8.1-1ubuntu5) ...
+dpkg: base-passwd: dependency problems, but configuring anyway as you requested:
+
+
+
+                                ╔════════════════╗
+════════════════════════════════╣ API Keys Regex ╠════════════════════════════════
+                                ╚════════════════╝
+Regexes to search for API keys aren't activated, use param '-r' 
+
+
