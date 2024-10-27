@@ -5,8 +5,12 @@ LABEL version="0.1"
 LABEL description="Custom image for privilege escalation demo"
 
 ARG DEBIAN_FRONTEND=noninteractive
+
+
+USER root
 RUN apt-get update
-RUN apt-get install -y sudo vim nano python3 tmux netcat-traditional ca-certificates cron dos2unix gcc strace ltrace make libcap2-bin gdb
+RUN apt-get install -y sudo vim nano python3 tmux netcat-traditional ca-certificates cron dos2unix gcc strace ltrace make libcap2-bin gdb wget less
+RUN wget -O pandoc.deb https://github.com/jgm/pandoc/releases/download/3.5/pandoc-3.5-1-amd64.deb && dpkg -i pandoc.deb && rm pandoc.deb
 
 RUN groupadd gudo
 RUN useradd -G gudo -U -M -s /usr/bin/bash user
@@ -65,6 +69,11 @@ RUN chmod 4755 /usr/local/bin/check-processes
 RUN chmod 0440 /etc/sudoers
 RUN chmod 0644 /etc/crontab
 RUN chmod 0700 /entrypoint.sh
+
+USER user
+RUN printf '\nmd() { pandoc -t ansi "$1"; }\nmdl() { pandoc -t ansi "$1" | less -R; }\n' >> ~/.bashrc
+
+USER root
 
 WORKDIR /home/user
 CMD ["/usr/bin/sh", "/entrypoint.sh"]
