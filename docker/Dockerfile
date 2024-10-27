@@ -67,4 +67,4 @@ RUN chmod 0644 /etc/crontab
 RUN chmod 0700 /entrypoint.sh
 
 WORKDIR /home/user
-CMD /usr/bin/sh /entrypoint.sh
+CMD ["/usr/bin/sh", "/entrypoint.sh"]
