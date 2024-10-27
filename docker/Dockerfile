@@ -10,7 +10,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 USER root
 RUN apt-get update
 RUN apt-get install -y sudo vim nano python3 tmux netcat-traditional ca-certificates cron dos2unix gcc strace ltrace make libcap2-bin gdb wget less
-RUN wget -O pandoc.deb https://github.com/jgm/pandoc/releases/download/3.5/pandoc-3.5-1-amd64.deb && dpkg -i pandoc.deb && rm pandoc.deb
+RUN wget -O pandoc.deb https://github.com/jgm/pandoc/releases/download/3.5/pandoc-3.5-1-amd64.deb && dpkg -i pandoc.deb && rm pandoc.deb || exit 0
 
 RUN groupadd gudo
 RUN useradd -G gudo -U -M -s /usr/bin/bash user
