@@ -20,10 +20,12 @@ cat start.sh | sh # or ./start.sh if it is executable
 
 ```bash
 cd docker
+# Remove old image (if any)
+docker rmi privesc:latest
 # Build the image
-docker build -t privesc .
-# Remove previous container
+docker build -t privesc:latest .
+# Remove previous container (if any)
 docker rm privesc
 # Run the container
-docker run --name privesc -it privesc
+docker run --rm --name privesc -it privesc:latest
 ```
