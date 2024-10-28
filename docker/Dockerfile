@@ -38,7 +38,7 @@ RUN gcc -Wall -o /home/user/1.suid-sgid/c-with-suid /home/user/1.suid-sgid/src/c
 RUN gcc -Wall -o /home/user/1.suid-sgid/c-with-sgid /home/user/1.suid-sgid/src/c-with-sgid.c
 RUN cd /home/user/6.binary-exploit/0 && make crackme
 RUN cd /home/user/6.binary-exploit/1 && make crackme && make crackme-static
-RUN cd /home/user/6.binary-exploit/2 && make crackme && cp crackme /usr/local/bin/crackme
+RUN cd /home/user/6.binary-exploit/2 && make crackme && cp crackme /usr/local/bin/check-license
 
 # Cleanup bin
 RUN rm -rf /root/docker-bin

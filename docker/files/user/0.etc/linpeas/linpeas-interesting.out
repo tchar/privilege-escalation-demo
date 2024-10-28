@@ -40,7 +40,7 @@ Files with capabilities (limited to 50):
 2024-10-26+03:34:54.7128171350 /home/user/5.wildcard-cron/exploit-tarcron.sh
 2024-10-26+03:34:54.7128171350 /home/user/5.wildcard-cron/demo-wildcard.sh
 2024-10-26+03:34:54.7128171350 /home/user/0.etc/linpeas.sh
-2024-10-26+03:34:53.1118066750 /usr/local/bin/crackme
+2024-10-26+03:34:53.1118066750 /usr/local/bin/check-license
 2024-10-26+03:34:53.1088066560 /home/user/6.binary-exploit/2/crackme
 2024-10-26+03:34:52.8418049110 /home/user/6.binary-exploit/1/crackme-static
 2024-10-26+03:34:52.7488043040 /home/user/6.binary-exploit/1/crackme
