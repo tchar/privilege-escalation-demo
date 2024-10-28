@@ -48,18 +48,18 @@ Numericaly all permissions are padded with `0`.
 User can read write execute, group can read write, other can read.
 ```bash
 rwx     rw-     r--     =   0764
-                       -----^----- 0 = no SUID/SGID, 2 = SUID, 4 = SGID.
+                       -----^----- 0 = no SUID/SGID, 4 = SUID, 2 = SGID.
 ```
 
 If we set `SUID` permission to the file, it will look like this
 ```bash
-rws     rw-     r--     =   2764
---^-----               -----^----- 2 = SUID
+rws     rw-     r--     =   4764
+--^-----               -----^----- 4 = SUID
 ```
 
 If the file did not have run permissions it would be a capital `S`.
 ```bash
-rwS     rw-     r--     =   2664
+rwS     rw-     r--     =   4664
 --^-----                -----^----- Note the 6 stands for not executable.
 ```
 
@@ -74,17 +74,17 @@ Same concepts apply as above, but for the group permissions.
 User can read write execute, group can read write, other can read.
 ```bash
 rwx     rwx     r--     =   0774
-                       -----^----- 0 = no SUID/SGID, 2 = SUID, 4 = SGID.
+                       -----^----- 0 = no SUID/SGID, 4 = SUID, 2 = SGID.
 ```
 
 If we set `SGID` permission to the file, it will look like this.
 ```bash
-rwx     rws     r--     =   4774
-      ----^-----       -----^----- 4 = SGID
+rwx     rws     r--     =   2774
+      ----^-----       -----^----- 2 = SGID
 ```
 
 If the file did not have run permissions it would be a capital S
 ```bash
-rwx     rwS     r--     =   4764
+rwx     rwS     r--     =   2764
         --^-----         -----^----- Note the 6 stands for not executable.
 ```
