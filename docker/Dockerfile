@@ -59,8 +59,11 @@ RUN chown root:shadow /home/user/1.suid-sgid/c-with-sgid
 RUN chmod 4775 /home/user/1.suid-sgid/python-with-suid.py
 RUN chmod 4775 /home/user/1.suid-sgid/c-with-suid
 RUN chmod 2755 /home/user/1.suid-sgid/c-with-sgid
+RUN chmod 0755 /home/user/4.path-injection/check.sh
 RUN chmod 0755 /home/user/6.binary-exploit/0/crackme
+RUN chmod 0755 /home/user/6.binary-exploit/0/check.sh
 RUN chmod 0755 /home/user/6.binary-exploit/1/crackme /home/user/6.binary-exploit/1/crackme-static
+RUN chmod 0755 /home/user/6.binary-exploit/1/check.sh
 RUN chmod 0755 /home/user/6.binary-exploit/2/crackme
 
 # Root chmod
