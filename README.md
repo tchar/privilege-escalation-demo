@@ -7,13 +7,12 @@ This repository contains a docker image to demonstrate common privilege escalati
 ### Automatically
 
 Run the script
-- Windows: `start.bat`
-- Linux/Mac: `start.sh`
+- Windows: `./scripts/windows/start.bat`
+- Linux/Mac: `./scripts/nix/start.sh`
 
 For example in Linux/Mac
 ```bash
-cd docker
-cat start.sh | sh # or ./start.sh if it is executable
+cat ./scripts/nix/start.sh | sh # or ./scripts/nix/start.sh if it is executable
 ```
 
 ### Manually
