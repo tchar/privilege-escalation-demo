@@ -6,11 +6,11 @@ This repository contains a docker image to demonstrate common privilege escalati
 
 ### Automatically
 
-Run the script inside the `docker directory`
+Run the script
 - Windows: `start.bat`
-- Linux: `start.sh`
+- Linux/Mac: `start.sh`
 
-You need to be in the `docker` directory to run the script. For example in Linux
+For example in Linux/Mac
 ```bash
 cd docker
 cat start.sh | sh # or ./start.sh if it is executable
@@ -19,11 +19,10 @@ cat start.sh | sh # or ./start.sh if it is executable
 ### Manually
 
 ```bash
-cd docker
 # Remove old image (if any)
 docker rmi privesc:latest
 # Build the image
-docker build -t privesc:latest .
+docker build -t privesc:latest ./docker
 # Remove previous container (if any)
 docker rm privesc
 # Run the container

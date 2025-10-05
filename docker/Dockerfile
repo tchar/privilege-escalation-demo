@@ -24,7 +24,11 @@ ADD files/bin /root/docker-bin
 ADD files/user /home/user
 
 # Convert lines to unix format
-RUN dos2unix /etc/sudoers /etc/crontab /entrypoint.sh /root/docker-bin/backup-cron /root/docker-bin/src/check-processes.c
+RUN dos2unix /etc/sudoers /etc/crontab /entrypoint.sh /root/docker-bin/backup-cron /root/docker-bin/src/check-processes.c \
+    /home/user/1.suid-sgid/src/c-with-suid.c /home/user/1.suid-sgid/src/c-with-sgid.c \
+    /home/user/6.binary-exploit/0/src/crackme.c \
+    /home/user/6.binary-exploit/1/src/crackme.c /home/user/6.binary-exploit/1/src/exploit.c \
+    /home/user/6.binary-exploit/2/src/crackme.c /home/user/6.binary-exploit/2/src/exploit.c
 
 # # Capabilities
 RUN cp /usr/bin/python3 /usr/local/bin/python && setcap cap_setuid+ep /usr/local/bin/python
@@ -38,7 +42,7 @@ RUN gcc -Wall -o /home/user/1.suid-sgid/c-with-suid /home/user/1.suid-sgid/src/c
 RUN gcc -Wall -o /home/user/1.suid-sgid/c-with-sgid /home/user/1.suid-sgid/src/c-with-sgid.c
 RUN cd /home/user/6.binary-exploit/0 && make crackme
 RUN cd /home/user/6.binary-exploit/1 && make crackme && make crackme-static
-RUN cd /home/user/6.binary-exploit/2 && make crackme && cp crackme /usr/local/bin/check-license
+RUN cd /home/user/6.binary-exploit/2 && make crackme && cp crackme /usr/local/bin/check-processes-pass
 
 # Cleanup bin
 RUN rm -rf /root/docker-bin
